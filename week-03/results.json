@@ -1,0 +1,72 @@
+{
+  "rows": 891,
+  "survival_rate": 0.384,
+  "age": {
+    "known": 714,
+    "mean": 29.7,
+    "median": 28.0,
+    "std": 14.53
+  },
+  "fare_median": 14.4542,
+  "missing": {
+    "Age": 177,
+    "Cabin": 687,
+    "Embarked": 2
+  },
+  "by_class": {
+    "1": {
+      "count": 216,
+      "survived": 136,
+      "rate": 0.63
+    },
+    "2": {
+      "count": 184,
+      "survived": 87,
+      "rate": 0.473
+    },
+    "3": {
+      "count": 491,
+      "survived": 119,
+      "rate": 0.242
+    }
+  },
+  "by_sex": {
+    "female": {
+      "count": 314,
+      "survived": 233,
+      "rate": 0.742
+    },
+    "male": {
+      "count": 577,
+      "survived": 109,
+      "rate": 0.189
+    }
+  },
+  "by_age_group": {
+    "0-17": {
+      "count": 113,
+      "survived": 61,
+      "rate": 0.54
+    },
+    "18-34": {
+      "count": 366,
+      "survived": 135,
+      "rate": 0.369
+    },
+    "35-59": {
+      "count": 209,
+      "survived": 87,
+      "rate": 0.416
+    },
+    "60+": {
+      "count": 26,
+      "survived": 7,
+      "rate": 0.269
+    },
+    "unknown": {
+      "count": 177,
+      "survived": 52,
+      "rate": 0.294
+    }
+  }
+}
