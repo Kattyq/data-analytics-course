@@ -3,6 +3,12 @@ from titanic_stats import load_data, survival_by, mean, median
 DATA_PATH = "week-03/train.csv"
 
 
+def family_group(size):
+    if size == 1:
+        return "alone"
+    return "with_family"
+
+
 def main():
     rows = load_data(DATA_PATH)
     print("Всего пассажиров:", len(rows))
@@ -31,8 +37,22 @@ def main():
         print(
             f"  {pclass} класс: среднее {mean(fares):.2f}, медиана {median(fares):.2f}")
         if pclass == "1":
-            assert round(mean(fares), 2) == 84.15   
+            assert round(mean(fares), 2) == 84.15
 
+    # Задание 3: одиночки против семей
+    for row in rows:
+        row["FamilySize"] = row["SibSp"] + row["Parch"] + 1
+        row["FamilyGroup"] = family_group(row["FamilySize"])
+
+    by_family = survival_by(rows, "FamilyGroup")
+
+    print("Выживаемость одиночек против семей:")
+
+    for group, stats in by_family.items():
+        print(
+            f"  {group}: {stats['survived']} из {stats['count']} "
+            f"= {stats['rate']:.2%}"
+        )
 
 if __name__ == "__main__":
     main()
