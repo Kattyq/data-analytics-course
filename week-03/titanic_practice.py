@@ -53,6 +53,19 @@ def main():
             f"= {stats['rate']:.2%}"
         )
 
+    # Задание 5: топ-5 самых дорогих билетов
+    top5 = sorted(rows, key=lambda r: r["Fare"], reverse=True)[:5]
+    print("Топ-5 дорогих билетов:")
+
+    for r in top5:
+        if r["Survived"] == 1:
+            status = "Выжил"
+        else:
+            status = "Не выжил"
+        print(
+            f"  {r['Name']} ({r['Pclass']} класс): {r['Fare']:.2f} | {status}")
+        assert round(top5[0]["Fare"], 2) == 512.33
+
     # Задание 6. Медианный возраст по классам
     # более взрослые люди могли позволить себе более дорогие билеты
     print("Медианный возраст по классам:")
@@ -76,6 +89,11 @@ def main():
     with open("week-03/class_sex.json", "w", encoding="utf-8") as f:
         json.dump(by_class_sex, f, ensure_ascii=False, indent=2)
         print("Сохранено в week-03/class_sex.json")
+
+    #когда нужно вывести value по значению
+    # for row in rows:
+    #     if row["Name"] == "Fortune, Mr. Charles Alexander":
+    #         print(row)
 
 if __name__ == "__main__":
     main()
