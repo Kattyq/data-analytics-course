@@ -1,3 +1,4 @@
+import json
 from titanic_stats import load_data, survival_by, mean, median
 
 DATA_PATH = "week-03/train.csv"
@@ -52,14 +53,29 @@ def main():
             f"= {stats['rate']:.2%}"
         )
 
-    # Задание 6. Медианный возраст по классам   
+    # Задание 6. Медианный возраст по классам
     # более взрослые люди могли позволить себе более дорогие билеты
     print("Медианный возраст по классам:")
     for pclass in ["1", "2", "3"]:
-        ages = [row["Age"] for row in rows if row["Pclass"] == pclass and row["Age"] is not None]
+        ages = [row["Age"] for row in rows if row["Pclass"]
+                == pclass and row["Age"] is not None]
         print(f"  {pclass} класс: медиана {median(ages):.1f} лет")
         if pclass == "1":
             assert median(ages) == 37.0
+
+    # Задание 7: выживаемость класс × пол
+    # категория пола влияла больше на выживаемость, и при этом женщины и мужчины тем не менее в более дорогих классах выживали лучше
+    for row in rows:
+        row["class_sex"] = f"{row['Pclass']}_{row['Sex']}"
+    by_class_sex = survival_by(rows, "class_sex")
+    print("Выживаемость по классу и полу:")
+    for group, stats in sorted(by_class_sex.items()):
+        print(f"  {group}: {stats['rate']:.1%}")
+        assert by_class_sex["1_female"]['rate'] == 0.968
+
+    with open("week-03/class_sex.json", "w", encoding="utf-8") as f:
+        json.dump(by_class_sex, f, ensure_ascii=False, indent=2)
+        print("Сохранено в week-03/class_sex.json")
 
 if __name__ == "__main__":
     main()
