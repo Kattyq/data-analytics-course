@@ -43,16 +43,23 @@ def main():
     for row in rows:
         row["FamilySize"] = row["SibSp"] + row["Parch"] + 1
         row["FamilyGroup"] = family_group(row["FamilySize"])
-
     by_family = survival_by(rows, "FamilyGroup")
 
     print("Выживаемость одиночек против семей:")
-
     for group, stats in by_family.items():
         print(
             f"  {group}: {stats['survived']} из {stats['count']} "
             f"= {stats['rate']:.2%}"
         )
+
+    # Задание 6. Медианный возраст по классам   
+    # более взрослые люди могли позволить себе более дорогие билеты
+    print("Медианный возраст по классам:")
+    for pclass in ["1", "2", "3"]:
+        ages = [row["Age"] for row in rows if row["Pclass"] == pclass and row["Age"] is not None]
+        print(f"  {pclass} класс: медиана {median(ages):.1f} лет")
+        if pclass == "1":
+            assert median(ages) == 37.0
 
 if __name__ == "__main__":
     main()
