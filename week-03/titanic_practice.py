@@ -1,5 +1,5 @@
 import json
-from titanic_stats import load_data, survival_by, mean, median
+from titanic_stats import load_data, survival_by, mean, median, survival_rate
 
 DATA_PATH = "week-03/train.csv"
 
@@ -8,6 +8,11 @@ def family_group(size):
     if size == 1:
         return "alone"
     return "with_family"
+
+
+def rate_where(rows, condition):
+    selected = [r for r in rows if condition(r)]
+    return len(selected), survival_rate(selected)
 
 
 def main():
@@ -54,6 +59,7 @@ def main():
         )
 
     # Задание 4: титул из имени
+    # значительно больше выжили мальчики по сравнению с взрослыми мужчинами, и значительно больше выжили женщины, но с небольшим отрывом замужние женщины
     for row in rows:
         row["Title"] = row["Name"].split(", ")[1].split(".")[0].strip()
     main_titles = ["Mr", "Miss", "Mrs", "Master"]
@@ -103,10 +109,22 @@ def main():
         json.dump(by_class_sex, f, ensure_ascii=False, indent=2)
         print("Сохранено в week-03/class_sex.json")
 
-    #когда нужно вывести value по значению
+    # Задание 8: дети до 10 лет
+    # выживаемость детей конечно выше, но не абсолютная, и взрослых намного больше чем детей было
+    n, rate = rate_where(
+        rows, lambda r: r["Age"] is not None and r["Age"] < 10)
+    print(f"Дети до 10 лет: {n} чел., выжили {rate:.1%}")
+    assert n > 0 and 0 <= rate <= 1
+    
+    n_adult, rate_adult = rate_where(
+        rows, lambda r: r["Age"] is not None and r["Age"] >= 18)
+    print(f"Взрослые от 18ти лет: {n_adult} чел., выжили {rate_adult:.1%}")
+
+    # когда нужно вывести value по значению
     # for row in rows:
     #     if row["Name"] == "Fortune, Mr. Charles Alexander":
     #         print(row)
+
 
 if __name__ == "__main__":
     main()
