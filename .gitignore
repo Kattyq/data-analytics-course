@@ -1,3 +1,6 @@
 .venv/
 __pycache__/
+*.pyc
+.vscode/
 week-03/results.json
+week-03/class_sex.json
