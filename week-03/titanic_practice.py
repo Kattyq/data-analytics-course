@@ -53,6 +53,19 @@ def main():
             f"= {stats['rate']:.2%}"
         )
 
+    # Задание 4: титул из имени
+    for row in rows:
+        row["Title"] = row["Name"].split(", ")[1].split(".")[0].strip()
+    main_titles = ["Mr", "Miss", "Mrs", "Master"]
+    for row in rows:
+        if row["Title"] not in main_titles:
+            row["Title"] = "Rare"
+    by_title = survival_by(rows, "Title")
+    print("Выживаемость по титулам:")
+    for title, stats in sorted(by_title.items(), key=lambda x: x[1]["count"], reverse=True):
+        print(f"  {title}: {stats['count']} чел., {stats['rate']:.1%}")
+    assert len(by_title) == 5
+
     # Задание 5: топ-5 самых дорогих билетов
     top5 = sorted(rows, key=lambda r: r["Fare"], reverse=True)[:5]
     print("Топ-5 дорогих билетов:")
