@@ -120,6 +120,18 @@ def main():
         rows, lambda r: r["Age"] is not None and r["Age"] >= 18)
     print(f"Взрослые от 18ти лет: {n_adult} чел., выжили {rate_adult:.1%}")
 
+    # Гипотеза: почему в Шербуре выживали чаще?
+    # Гипотеза: доля 1 класса по портам
+    # выживаемость в порту Шербура объясняется большим наличием наличием пассажирова 1ого класса, чем тем, что там больше женщин
+    print("Доля 1ого класса по портам:")
+    for port in ["C", "S", "Q"]:
+        port_rows = [r for r in rows if r["Embarked"] == port]
+        first = [r for r in port_rows if r["Pclass"] == "1"]
+        women = [r for r in port_rows if r["Sex"] == "female"]
+        share = len(first) / len(port_rows)
+        share_w = len(women) / len(port_rows)
+        print(f"  {port}: {len(port_rows)} чел., 1 класс {share:.1%}, женщин {share_w:.1%}")
+
     # когда нужно вывести value по значению
     # for row in rows:
     #     if row["Name"] == "Fortune, Mr. Charles Alexander":
